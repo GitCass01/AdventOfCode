@@ -27,7 +27,7 @@ def createTree(lines):
                 tree[currentDir] = [{}, 0]
                 idx += 1
             case ['cd', '..']:
-                idxs = [i for i, ltr in enumerate(currentDir) if ltr == '/']
+                idxs = [i for i, d in enumerate(currentDir) if d == '/']
                 currentDir = currentDir[:idxs[len(idxs)-2]+1]
                 idx += 1
             case ['cd', directory]:
@@ -36,9 +36,7 @@ def createTree(lines):
             case ['ls']:
                 idx += 1
                 while True:
-                    if idx >= len(lines):
-                        break
-                    if lines[idx].startswith('$'):
+                    if idx >= len(lines) or lines[idx].startswith('$'):
                         break
                     i, j = lines[idx].rstrip().split(' ')
                     dirs = currentDir.split('/')

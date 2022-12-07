@@ -25,30 +25,31 @@ def createTree(lines):
             case ['cd', '/']:
                 currentDir = '/'
                 tree[currentDir] = [{}, 0]
-                idx += 1
             case ['cd', '..']:
                 idxs = [i for i, d in enumerate(currentDir) if d == '/']
                 currentDir = currentDir[:idxs[len(idxs)-2]+1]
-                idx += 1
             case ['cd', directory]:
                 currentDir += directory + '/'
-                idx += 1
             case ['ls']:
                 idx += 1
                 while True:
-                    if idx >= len(lines) or lines[idx].startswith('$'):
+                    if idx == len(lines):
                         break
-                    i, j = lines[idx].rstrip().split(' ')
                     dirs = currentDir.split('/')
                     dirs = list(filter(None, dirs))
                     dirs.insert(0, '/')
-                    if i == 'dir':
-                        dirs.append(j)
-                        if len(dirs) > 1:
-                            set_nested(tree, dirs, [{}, 0])
-                    else: # file
-                        update_nested(tree, dirs, [i, j])
+                    match lines[idx].rstrip().split(' '):
+                        case ['$', *cmd]:
+                            idx -= 1
+                            break
+                        case ['dir', d]:
+                            dirs.append(d)
+                            if len(dirs) > 1:
+                                set_nested(tree, dirs, [{}, 0])
+                        case [size, name]:
+                            update_nested(tree, dirs, [size, name])
                     idx += 1
+        idx += 1
     return tree
 
 def sizes(tree, atMost):

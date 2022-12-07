@@ -106,13 +106,13 @@ def approx(seconds: float):
 
 with open('day7.txt', 'r') as file:
     lines = file.readlines()
-# start_time = time.time()
+start_time = time.time()
 print(part1(lines))
-# end_time = time.time()
-# print("--- {} ---".format(approx(end_time - start_time)))
+end_time = time.time()
+print("--- {} ---".format(approx(end_time - start_time)))
 
 file = open('day7.txt')
-# start_time = time.time()
+start_time = time.time()
 print(part2(lines))
-# end_time = time.time()
-# print("--- {} ---".format(approx(end_time - start_time)))
+end_time = time.time()
+print("--- {} ---".format(approx(end_time - start_time)))

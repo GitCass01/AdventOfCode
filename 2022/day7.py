@@ -21,39 +21,36 @@ def createTree(lines):
     currentDir = ''
 
     while idx < l:
-        line = lines[idx].rstrip()
-        if line.startswith('$'):
-            line = line[2:].split(' ')
-            match line[0]:
-                case 'cd':
-                    d = line[1]
-                    if d == '/':
-                        currentDir = '/'
-                        tree[currentDir] = [{}, 0]
-                    elif d == '..':
-                        idxs = [i for i, ltr in enumerate(currentDir) if ltr == '/']
-                        currentDir = currentDir[:idxs[len(idxs)-2]+1]
-                    elif currentDir != '':
-                        currentDir += d + '/'
+        match lines[idx].rstrip()[2:].split(' '):
+            case ['cd', '/']:
+                currentDir = '/'
+                tree[currentDir] = [{}, 0]
+                idx += 1
+            case ['cd', '..']:
+                idxs = [i for i, ltr in enumerate(currentDir) if ltr == '/']
+                currentDir = currentDir[:idxs[len(idxs)-2]+1]
+                idx += 1
+            case ['cd', directory]:
+                currentDir += directory + '/'
+                idx += 1
+            case ['ls']:
+                idx += 1
+                while True:
+                    if idx >= len(lines):
+                        break
+                    if lines[idx].startswith('$'):
+                        break
+                    i, j = lines[idx].rstrip().split(' ')
+                    dirs = currentDir.split('/')
+                    dirs = list(filter(None, dirs))
+                    dirs.insert(0, '/')
+                    if i == 'dir':
+                        dirs.append(j)
+                        if len(dirs) > 1:
+                            set_nested(tree, dirs, [{}, 0])
+                    else: # file
+                        update_nested(tree, dirs, [i, j])
                     idx += 1
-                case 'ls':
-                    idx += 1
-                    while True:
-                        if idx >= len(lines):
-                            break
-                        if lines[idx].startswith('$'):
-                            break
-                        i, j = lines[idx].rstrip().split(' ')
-                        dirs = currentDir.split('/')
-                        dirs = list(filter(None, dirs))
-                        dirs.insert(0, '/')
-                        if i == 'dir':
-                            dirs.append(j)
-                            if len(dirs) > 1:
-                                set_nested(tree, dirs, [{}, 0])
-                        else: # file
-                            update_nested(tree, dirs, [i, j])
-                        idx += 1
     return tree
 
 def sizes(tree, atMost):

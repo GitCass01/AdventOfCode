@@ -58,7 +58,7 @@ def mov_t(dist):
     if dist[0] > 0 and dist[1] > 0: return (1,1)
     if dist[0] < 0 and dist[1] > 0: return (-1,1)
     if dist[0] > 0 and dist[1] < 0: return (1,-1)
-    if dist[0] <0 and dist[1] < 0: return (-1,-1)
+    if dist[0] < 0 and dist[1] < 0: return (-1,-1)
 
 def add_mov(pos, mov):
     pos[0] += mov[0]

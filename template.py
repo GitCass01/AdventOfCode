@@ -1,5 +1,4 @@
 import time
-from io import TextIOWrapper
 
 def part1(lines: list[str]):
     return None
@@ -25,7 +24,6 @@ print(part1(lines))
 # end_time = time.time()
 # print("--- {} ---".format(approx(end_time - start_time)))
 
-file = open('day.txt')
 # start_time = time.time()
 print(part2(lines))
 # end_time = time.time()

@@ -9,7 +9,7 @@ def parse(lines):
         monkey = {}
         monkey['si'] = list(map(lambda x: x.strip(), lines[i+1].split(':')[1].lstrip().split(',')))
         monkey['si'] = list(map(lambda x: int(x), monkey['si']))
-        match lines[i+2][21:].split():
+        match lines[i+2].split()[4:]:
             case ['+', 'old']:
                 op = lambda x: x + x
             case ['+', val]:
@@ -19,7 +19,7 @@ def parse(lines):
             case ['*', val]:
                 op = lambda x, y=int(val): x * y
         monkey['op'] = op
-        divisible = int(lines[i+3][19:])
+        divisible = int(lines[i+3].split()[3])
         modulo *= divisible
         monkeyT = int(lines[i+4][len(lines[i+4])-1])
         monkeyF = int(lines[i+5][len(lines[i+5])-1])

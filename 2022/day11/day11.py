@@ -7,8 +7,7 @@ def parse(lines):
                    
     for i in range(0, len(lines), 6):
         monkey = {}
-        monkey['si'] = list(map(lambda x: x.strip(), lines[i+1].split(':')[1].lstrip().split(',')))
-        monkey['si'] = list(map(lambda x: int(x), monkey['si']))
+        monkey['si'] = list(map(lambda x: int(x.strip()), lines[i+1].split(':')[1].lstrip().split(',')))
         match lines[i+2].split()[4:]:
             case ['+', 'old']:
                 op = lambda x: x + x

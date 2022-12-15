@@ -21,7 +21,6 @@ def part1(lines: list[str]):
     distance = {}
     for s in positions.keys():
         distance[s] = manhattan_distance(s, positions[s])
-        
     for x in range(minX, maxX+1):
         if (x, y) == positions[s] or (x, y) in positions.keys():
             continue
